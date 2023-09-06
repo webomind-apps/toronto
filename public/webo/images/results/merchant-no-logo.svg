@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="160" height="140"
+     viewBox="0 0 160 140">
+    <defs>
+        <path id="a" d="M0 78.522h89.92V0H0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#FFF" d="M-164-97h1492v2143H-164z"/>
+        <path fill="#F2F2F2" d="M0 0h160v140H0z"/>
+        <g transform="translate(35 31)">
+            <path stroke="#D6D5D5" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.3"
+                  d="M8.866 31.046h72.188v46.208H8.866z"/>
+            <mask id="b" fill="#fff">
+                <use xlink:href="#a"/>
+            </mask>
+            <path stroke="#D6D5D5" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.3"
+                  d="M16.465 65.856H46.86V43.06H16.465zM54.458 77.254h18.997V43.06H54.458zM81.054 1.267H8.866L1.268 16.465h87.384z"
+                  mask="url(#b)"/>
+            <path stroke="#D6D5D5" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.3"
+                  d="M88.652 20.264c0 8.745-10.485 16.062-18.996 7.599-5.525 8.775-17.699 10.372-24.696 2.43-7.076 8.044-19.246 6.224-24.696-2.43-8.411 8.382-18.997 1.243-18.997-7.599v-3.8h87.385v3.8z"
+                  mask="url(#b)"/>
+            <path stroke="#D6D5D5" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.3"
+                  d="M20.264 27.863V16.465l3.8-15.197M44.96 30.315V1.267M69.656 27.863V16.465l-3.8-15.197"
+                  mask="url(#b)"/>
+            <path fill="#D6D5D5" d="M65.856 60.157a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8" mask="url(#b)"/>
+        </g>
+    </g>
+</svg>
