@@ -19,15 +19,15 @@
                 <li>Telephone</li>
                 <li>Fax</li>
                 <li>Email</li>
-                <li>Province</li>
-                <li>City</li>
-                <li>Category</li>
-                <li>Sub Category</li>
                 <li>Business Address </li>
                 <li>Business Description</li>
+                <li>Category</li>
+                <li>Sub Category</li>
                 <li>Business Hours</li>
                 <li>Map Location</li>
                 <li>Add Reviews</li>
+                <li>Province</li>
+                <li>City</li>
             </ul>
 
             <div class="text-center">
@@ -43,11 +43,10 @@
         <div class="pack-box">
             <div class="pack-title text-center">
                 <h4>Premium Listing</h4>
-                <span class="price">${{$package->price??99}}</span>
+                <span class="price">${{ $package->price ?? 99 }}</span>
             </div>
             <ul class="pack-options">
                 <li>Business Name</li>
-                <li>Business Logo</li>
                 <li>Website URL</li>
                 <li>Telephone</li>
                 <li>Fax</li>
@@ -56,16 +55,17 @@
                 <li>Business Description</li>
                 <li>Category</li>
                 <li>Sub Category</li>
+                <li>Business Hours</li>
+                <li>Map Location</li>
+                <li>Add Reviews</li>
                 <li>Areas of Practice</li>
                 <li>Products and Services</li>
                 <li>Languages</li>
-                <li>Business Hours</li>
                 <li>Social Media Links</li>
                 <li>Gallery</li>
                 <li>Payment Methods</li>
                 <li>Video Link</li>
-                <li>Map Location</li>
-                <li>Add Reviews</li>
+                <li>Business Logo</li>
             </ul>
             <div class="text-center">
                 <label class="checkContainer">
@@ -86,7 +86,7 @@
                 <span class="price"></span>
             </div>
 
-            <img src="{{asset('webo/images/300/300x300_5.jpg')}}" class="full-width"/>
+            <img src="{{ asset('webo/images/300/300x300_5.jpg') }}" class="full-width" />
 
             <div class="text-center mt-10">
                 <label class="checkContainer">
@@ -104,7 +104,7 @@
                 <span class="price"></span>
             </div>
 
-            <img src="{{asset('webo/images/300/300x600_5.jpg')}}" class="full-width"/>
+            <img src="{{ asset('webo/images/300/300x600_5.jpg') }}" class="full-width" />
 
             <div class="text-center mt-10">
                 <label class="checkContainer">
@@ -127,7 +127,7 @@
                 <span class="price"></span>
             </div>
 
-            <img src="{{asset('webo/images/300/featured_banner.png')}}" class=""/>
+            <img src="{{ asset('webo/images/300/featured_banner.png') }}" class="" />
 
             <div class="text-center mt-10">
                 <label class="checkContainer">
@@ -151,8 +151,8 @@
 <form action="{{ route('registration.submit.step2') }}" id="step2_pack_form" method="post">
     @csrf
     <input type="hidden" name="package_id" id="package_id" value="1" required>
-    <input type="hidden" id="register_button_name" value="register_button_step2"/>
-    <input style="display:none;" type="submit" id="register_button_step2" value=""/>
+    <input type="hidden" id="register_button_name" value="register_button_step2" />
+    <input style="display:none;" type="submit" id="register_button_step2" value="" />
 </form>
 @push('scripts')
     <script>
@@ -169,12 +169,13 @@
             $(".optional-checkbox").change(function() {
                 id = $(this).attr("data-id");
                 $(this).parent().closest(".pack-box").removeClass("package-select-active");
-                if($(this).prop("checked")== true){
+                if ($(this).prop("checked") == true) {
                     $(this).parent().closest(".pack-box").addClass("package-select-active");
                     value = $(this).attr("data-value");
-                    $("#step2_pack_form").append('<input type="hidden" name="optional_featured[]" id="'+id+'" value="'+value+'">')
-                }else{
-                    $("#"+id).remove();
+                    $("#step2_pack_form").append('<input type="hidden" name="optional_featured[]" id="' +
+                        id + '" value="' + value + '">')
+                } else {
+                    $("#" + id).remove();
                 }
             });
 

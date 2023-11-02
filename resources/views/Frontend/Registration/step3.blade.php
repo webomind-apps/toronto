@@ -34,6 +34,10 @@
         .mt-20 {
             margin-top: 20px;
         }
+
+        .required {
+            color: red;
+        }
     </style>
 @endpush('style')
 <h3>Business Details</h3>
@@ -71,7 +75,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-4 col-md-4 control-label">Sub category <span class="required">
+                    <label class="col-sm-4 col-md-4 control-label">Sub category <span class="required">*
                         </span> : </label>
                     <div class="col-sm-8 col-md-8">
                         <select name="sub_category_ids[]" id="sub_category_ids" class="form-control "
@@ -128,7 +132,7 @@
                     <label class="col-sm-4 col-md-4 control-label">Website <span class="required">*
                         </span> :</label>
                     <div class="col-sm-8 col-md-8 websiteDiv">
-                        <input type="text" class="form-control  website" placeholder="Website(www.google.com)"
+                        <input type="text" class="form-control" placeholder="Website(www.google.com)"
                             name="website" id="website" value="{{ old('website') }}" required>
                         @if ($errors->has('website'))
                             <p style="color:red;">{{ $errors->first('website') }}</p>
@@ -162,8 +166,8 @@
                             $country_id = session()->get('registration_step1')['country_id'];
                             $country = \App\Models\Country::find($country_id);
                         @endphp
-                        <select class="form-control">
-                            <option>
+                        <select class="form-control" name="country_id">
+                            <option value="{{ $country_id }}">
                                 {{ $country->name }}</option>
                         </select>
                         @if ($errors->has('country_id'))
@@ -180,14 +184,14 @@
                         @php
                             $province_id = session()->get('registration_step1')['province_id'];
                             $province = \App\Models\Province::find($province_id);
-                            
+
                             // dd($province->name);
-                            
+
                         @endphp
 
                         {{-- {{ dd($province->name) }} --}}
-                        <select class="form-control">
-                            <option value="">{{ $province->name }}
+                        <select class="form-control" name="province_id">
+                            <option value="{{ $province_id }}">{{ $province->name }}
                             </option>
                         </select>
                         @if ($errors->has('province_id'))
@@ -204,8 +208,8 @@
                             $city_id = session()->get('registration_step1')['city_id'];
                             $city = \App\Models\City::find($city_id);
                         @endphp
-                        <select class="form-control">
-                            <option value="">{{ $city->name }}
+                        <select class="form-control" name="city_id">
+                            <option value="{{ $city_id }}">{{ $city->name }}
                             </option>
                         </select>
                         @if ($errors->has('city_id'))
@@ -330,31 +334,36 @@
                 <h4 class="title">Social Media</h4>
                 <hr />
 
-                <div class="form-group social_network">
-                    <label class="col-sm-4 col-md-4 control-label">Social Network<span class="required">
-                        </span> :</label>
-                    <div class="col-sm-8 col-md-8">
-                        <select name="social_names[]" class="form-control">
-                            <option value="">select</option>
-                            @foreach (SOCIAL_LIST as $value)
-                                <option value="{{ $value['name'] }}">{{ $value['name'] }}</option>
-                            @endforeach
-                        </select>
-                        @if ($errors->has('social_names'))
-                            <p style="color:red;">{{ $errors->first('social_names') }}</p>
-                        @endif
+                <div class="w-100 d-md-flex social_lnk_cmpnt">
+                    <div class="form-group social_network">
+                        <label class="col-sm-4 col-md-4 control-label">Social Network<span class="required">
+                            </span> :</label>
+                        <div class="col-sm-8 col-md-8">
+                            <select name="social_names[]" class="form-control">
+                                <option value="">select</option>
+                                @foreach (SOCIAL_LIST as $value)
+                                    <option value="{{ $value['name'] }}">{{ $value['name'] }}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('social_names'))
+                                <p style="color:red;">{{ $errors->first('social_names') }}</p>
+                            @endif
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group social_url social_append">
-                    <label class="col-sm-4 col-md-4 control-label">Url<span class="required">
-                        </span> :</label>
-                    <div class="col-sm-8 col-md-8 websiteDiv">
-                        <input type="text" class="form-control  website business_social"
-                            placeholder="Enter URL(www.google.com)" name="social_urls[]" value="">
-                        @if ($errors->has('social_urls'))
-                            <p style="color:red;">{{ $errors->first('social_urls') }}</p>
-                        @endif
+                    <div class="form-group social_url social_append">
+                        <label class="col-sm-3 col-md-3 control-label">Url<span class="required">
+                            </span> :</label>
+                        <div class="col-sm-8 col-md-8 websiteDiv">
+                            <input type="text" class="form-control  website business_social"
+                                placeholder="Enter URL(www.google.com)" name="social_urls[]" value="">
+                            @if ($errors->has('social_urls'))
+                                <p style="color:red;">{{ $errors->first('social_urls') }}</p>
+                            @endif
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger social_item_remove">X</button>
+                        </div>
                     </div>
                 </div>
 
@@ -639,11 +648,13 @@
         });
 
         $(document).on("click", "#social_add_more", function() {
-            $(".social_append:last").after(
-                '<div class="form-group social_network"><label class="col-sm-4 col-md-4 control-label">Social Network<span class="required"></span> :</label><div class="col-sm-8 col-md-8"><select name="social_names[]" class="form-control business_social" required><option value="">select</option>@foreach (SOCIAL_LIST as $value)<option value="{{ $value['name'] }}">{{ $value['name'] }}</option>@endforeach</select></div></div><div class="form-group social_url social_append"><label class="col-sm-4 col-md-4 control-label">Url<span class="required"></span> :</label><div class="col-sm-8 col-md-8 websiteDiv"><input type="text" class="form-control website business_social" placeholder="Enter URL(www.google.com)"name="social_urls[]"  value="" required></div></div>'
+            $(".social_lnk_cmpnt:last").after(
+                '<div class="w-100 d-md-flex social_lnk_cmpnt"><div class="form-group social_network"><label class="col-sm-4 col-md-4 control-label">Social Network<span class="required"></span> :</label><div class="col-sm-8 col-md-8"><select name="social_names[]" class="form-control business_social" required><option value="">select</option>@foreach (SOCIAL_LIST as $value)<option value="{{ $value['name'] }}">{{ $value['name'] }}</option>@endforeach</select></div></div><div class="form-group social_url social_append"><label class="col-sm-3 col-md-3 control-label">Url<span class="required"></span> :</label><div class="col-sm-8 col-md-8 websiteDiv"><input type="text" class="form-control website business_social" placeholder="Enter URL(www.google.com)"name="social_urls[]"  value="" required></div><div class="col-md-1"><button type="button" class="btn btn-danger social_item_remove">X</button></div></div></div>'
             );
         });
-
+        $(document).on("click", ".social_item_remove", function(event) {
+            $(this).parent().closest(".social_lnk_cmpnt").remove();
+        });
         $(document).on("click", "#social_remove", function() {
             $(".social_url").not(':first').last().remove();
             $(".social_network").not(':first').last().remove();

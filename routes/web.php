@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\CommonController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\CommonController;
 
 //Front end controller
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/blogs', [HomeController::class, 'blogs'])->name('home.blogs');
+Route::get('blog/{id}/details', [BlogController::class, 'show'])->name('blog.details');
 
 //registration
 Route::prefix('registration/')->name('registration.')->group(function () {

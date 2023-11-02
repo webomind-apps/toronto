@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\businessExport;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\User;
@@ -22,6 +23,7 @@ use App\Http\Requests\BusinessCategoryRequest;
 use App\Http\Requests\BusinessLanguageRequest;
 use App\Http\Requests\BusinessPaymentRequest;
 use App\Http\Requests\BusinessSubCategoryRequest;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BusinessController extends Controller
 {
@@ -32,15 +34,39 @@ class BusinessController extends Controller
      */
     public function index(Request $request)
     {
-
-        $businesses = Business::orderBy("id","asc")->with("business_upgrade_latest");
+        // dd($request->all());
+        $packages = Package::orderBy("name","asc")->where("status",1)->get();
+        $categories = Category::orderBy("name","asc")->where("status",1)->get();
+        $businesses = Business::orderBy("name","desc")->with("business_upgrade_latest");
+        if($request->sts!=''){
+            $businesses->where("status",$request->sts);
+        }
+        if($request->province_id!=''){
+            $businesses->where("province_id",$request->province_id);
+        }
+        if($request->category_id!=''){
+            $category_id=$request->category_id;
+            $businesses->whereHas('category', function ($query) use ($category_id) {
+                $query->where('category_id', $category_id);
+            });
+        }
+        if($request->package_id!=''){
+            $package_id=$request->package_id;
+            $businesses->whereHas('business_upgrade_latest', function ($query) use ($package_id) {
+                $query->where('package_id', $package_id);
+            });
+        }
         if($request->status == "active"){
             $businesses->where("status",1);
         }elseif($request->status == "inactive"){
             $businesses->where("status",0);
         }elseif($request->status == "expired"){
             $businesses->whereHas("business_upgrade_latest", function ($query) {
-                $query->where('expired_date', '<', date("Y-m-d"));
+                $query->where('expired_date', '<=', date('Y-m-d'));
+            });
+        }elseif($request->status == "upcomming"){
+            $businesses->whereHas("business_upgrade_latest", function ($query) {
+                $query->where('expired_date', '>=', date('Y-m-d'));
             });
         }elseif($request->status == "premium"){
             $businesses->whereHas("business_upgrade_latest", function ($query) {
@@ -49,11 +75,15 @@ class BusinessController extends Controller
             });
         }
         $businesses = $businesses->get();
+        // dd($businesses[0]->business_upgrade_latest->expired_date,date("d-m-Y"),$businesses[0]->business_upgrade_latest->expired_date<date("d-m-Y"));
 
         $default_logo = DefaultLogo::where("status", 1)->latest()->first();
-        return view('Backend.Admin.Business.list', compact('businesses','default_logo'));
+        return view('Backend.Admin.Business.list', compact('businesses','default_logo','packages','categories'));
     }
 
+    public function export(Request $request){
+        return Excel::download(new businessExport($request), 'Business.xlsx');
+    }
     /**
      * Show the form for creating a new resource.
      *

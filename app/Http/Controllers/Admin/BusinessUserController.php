@@ -15,7 +15,7 @@ class BusinessUserController extends Controller
      */
     public function index(Request $request)
     {
-        $businessUsers = BusinessUser::orderBy("id","asc");
+        $businessUsers = BusinessUser::orderBy("fname","desc");
         if($request->status == "active"){
             $businessUsers->where("status",1);
         }elseif($request->status == "inactive"){

@@ -2672,7 +2672,7 @@ i.fa.fa-sign-in.m-r-5 {
 
 .slider {
     overflow-x: hidden;
-    height: 650px;
+    height: 450px;
     /* background: #175689 url(../images/banner.gif) center/contain; */
     position: relative
 }
@@ -3901,7 +3901,7 @@ input.form-check-input:checked {
     border-radius: 5px;
     overflow: hidden;
     border: 1px solid #dddddd;
-    margin: 40px 0;
+    margin: 40px 0 20px 0;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -4585,7 +4585,7 @@ input.form-check-input:checked {
 .owl-carousel.carousel-fade {
     position: absolute;
     width: 100%;
-    height: 650px;
+    height: 450px;
     overflow: hidden;
     z-index: 0;
 }

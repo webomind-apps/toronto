@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdvertisementController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BusinessController;
 use App\Http\Controllers\Admin\BusinessUserController;
@@ -116,10 +117,15 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::post('business/galleryUpload', [BusinessController::class, 'gallery_upload'])->name('business.galleryUpload');
     Route::get('business/galleryRemove', [BusinessController::class, 'gallery_remove'])->name('business.galleryRemove');
     Route::resource('business', BusinessController::class);
+    Route::post('business/export', [BusinessController::class, 'export'])->name('business.export');
 
     //payment method
     Route::put('paymentMethod/status', [PaymentMethodController::class, 'status_change'])->name('paymentMethod.status');
     Route::resource('paymentMethod', PaymentMethodController::class);
+
+    // blogs
+    Route::resource('blog', BlogController::class);
+    Route::post('blog/status', [BlogController::class, 'status_change'])->name('blog.status');
 
     //common function
     Route::post('common/email_unique', [CommonController::class, 'email_unique'])->name('common.email_unique');

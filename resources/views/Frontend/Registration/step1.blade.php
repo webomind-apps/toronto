@@ -2,6 +2,7 @@
     <style>
         .input-icons i {
             position: absolute;
+            right: 10px;
         }
 
         .input-icons {
@@ -22,6 +23,9 @@
             }
         }
 
+        .required {
+            color: red;
+        }
     </style>
 @endpush
 <h3>Create Account</h3>
@@ -51,9 +55,10 @@
                     @endif
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-4 col-md-4 control-label">Password <span class="required">*
-                    </span> :</label>
+            <div class="form-group" style="position: relative;">
+                <label class="col-sm-4 col-md-4 control-label">Password
+                    <span class="required">*</span> :
+                </label>
                 <div class="col-sm-8 col-md-8 input-icons">
                     <i class="fa fa-eye icon password-eye"></i>
                     <input type="password" class="form-control input-field" id="pass" placeholder="Password"
@@ -63,7 +68,7 @@
                     @endif
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <label class="col-sm-4 col-md-4 control-label">Confirm <span class="required">*
                     </span> :</label>
                 <div class="col-sm-8 col-md-8 input-icons">
@@ -175,8 +180,9 @@
                 <label class="col-sm-4 col-md-4 control-label">Postal Code <span class="required">* </span>
                     :</label>
                 <div class="col-sm-8 col-md-8 codeDiv">
-                    <input type="text" class="form-control alphanumeric code" placeholder="Postal Code" name="postcode"
-                        value="{{ old('postcode') }}" required minlength="6" maxlength="7">
+                    <input type="text" class="form-control alphanumeric code" id="postcode"
+                        placeholder="Postal Code" name="postcode" value="{{ old('postcode') }}" required
+                        minlength="6" maxlength="7">
 
                     @if ($errors->has('postcode'))
                         <p style="color:red;">{{ $errors->first('postcode') }}</p>
@@ -189,11 +195,11 @@
     </form>
 </fieldset>
 @push('scripts')
-<script
+    <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZuRJggt3Hg37Vrl5EeL9j9FREsD7SBo8&libraries=places&callback=initMap&v=weekly"
         defer></script>
 
-  
+
     <script>
         $(document).ready(function() {
 
@@ -290,6 +296,34 @@
             google.maps.event.addListener(searchBox, 'place_changed', function() {
                 marker.setVisible(false);
                 const place = searchBox.getPlace();
+                let postcode;
+                let locality;
+                let province;
+                for (const component of place.address_components) {
+                    // @ts-ignore remove once typings fixed
+                    const componentType = component.types[0];
+                    switch (componentType) {
+                        case "postal_code": {
+                            postcode = component['long_name'];
+                            $('#postcode').val(postcode);
+                            break;
+                        }
+                        case "locality": {
+                            locality = component['long_name'];
+                            setTimeout(function() {
+                                $('#city_id option:contains("' + locality + '")').prop('selected', true)
+                            }, 1000);
+                            break;
+                        }
+                        case "administrative_area_level_1": {
+                            province = component['long_name'];
+                            $('#province_id option:contains("' + province + '")').prop('selected', true).change();
+                            // $('#province_id').val(province).change();
+                            break;
+                        }
+                    }
+                }
+                console.log(postcode, locality, province);
 
 
                 if (!place.geometry || !place.geometry.location) {
@@ -310,8 +344,9 @@
                 $('#admin_address').val(place.formatted_address);
                 $('#place_lat').val(place.geometry.location.lat());
                 $('#place_lng').val(place.geometry.location.lng());
-                // $('#business_postal_code').val(postcode);
 
+                // $('#business_postal_code').val(postcode);
+                console.log(place);
             });
         }
 

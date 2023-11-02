@@ -215,7 +215,42 @@
                                 </div>
                             </a>
                         </div>
-
+                        <div class="col-xs-12 col-md-2">
+                            <a href="{{ route('admin.business.index', ['status' => 'expired']) }}"
+                                title="Expired Business User">
+                                <div class="x_panel bt5">
+                                    <h2>Expired listing</h2>
+                                    <p><b>{{ $allExpiredBusinesses }}</b></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-md-2">
+                            <a href="{{ route('admin.business.index', ['status' => 'upcomming']) }}"
+                                title="Upcoming renewal Business">
+                                <div class="x_panel bt5">
+                                    <h2>Upcoming Renewal</h2>
+                                    <p><b>{{ $upcomingRenewalBusinesses }}</b></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-md-2">
+                            <a href="{{ route('admin.paymentMethod.index') }}"
+                                title="Expired Business User">
+                                <div class="x_panel bt5">
+                                    <h2>Payment Mode</h2>
+                                    <p><b>{{ $allPaymentMethod }}</b></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-md-2">
+                            <a href="{{ route('admin.enquiry.index') }}"
+                                title="Expired Business User">
+                                <div class="x_panel bt5">
+                                    <h2>Inquires</h2>
+                                    <p><b>{{ $allInquires }}</b></p>
+                                </div>
+                            </a>
+                        </div>
                         {{-- <div class="col-xs-12 col-md-2">
                             <a href="{{ route('admin_business_user_list') }}" title="All User">
                                 <div class="x_panel bt6">

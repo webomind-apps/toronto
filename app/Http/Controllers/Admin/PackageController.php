@@ -16,7 +16,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        $packages = Package::orderBy("id","asc")->get();
+        $packages = Package::orderBy("name","desc")->get();
         return view('Backend.Admin.Package.list', compact('packages'));
     }
 

@@ -25,6 +25,7 @@
                         <li><a href="{{route("admin.advertisement.index")}}"><i class="fa fa-globe"></i>Advertisement</a></li>
                         <li><a href="{{route("admin.headerBanner.index")}}"><i class="fa fa-globe"></i>Header Banner</a></li>
                         <li><a href="{{route("admin.paymentMethod.index")}}"><i class="fa fa-globe"></i>Payment Method</a></li>
+                        <li><a href="{{route("admin.blog.index")}}"><i class="fa fa-calendar"></i>Blog</a></li>
 
                     </ul>
                 </li>

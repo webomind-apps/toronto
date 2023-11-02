@@ -104,27 +104,27 @@
                         @if (!empty($business->socialMedias))
                             @foreach ($business->socialMedias as $social)
                                 @if ($social->name == 'Facebook')
-                                    <a href="http://{{ $social->url }}" target="_blank">
+                                    <a href="https://{{ $social->url }}" target="_blank">
                                         <i class="fa fa-facebook social-icon"></i></a>
                                 @endif
                                 @if ($social->name == 'Instagram')
-                                    <a href="http://{{ $social->url }}" target="_blank">
+                                    <a href="https://{{ $social->url }}" target="_blank">
                                         <i class="fa fa-instagram social-icon"></i></a>
                                 @endif
                                 @if ($social->name == 'Youtube')
-                                    <a href="http://{{ $social->url }}" target="_blank">
+                                    <a href="https://{{ $social->url }}" target="_blank">
                                         <i class="fa fa-youtube social-icon"></i></a>
                                 @endif
                                 @if ($social->name == 'Twitter')
-                                    <a href="http://{{ $social->url }}" target="_blank">
+                                    <a href="https://{{ $social->url }}" target="_blank">
                                         <i class="fa fa-twitter social-icon"></i></a>
                                 @endif
                                 @if ($social->name == 'Pinterest')
-                                    <a href="http://{{ $social->url }}" target="_blank">
+                                    <a href="https://{{ $social->url }}" target="_blank">
                                         <i class="fa fa-pinterest social-icon"></i></a>
                                 @endif
                                 @if ($social->name == 'Snapchat')
-                                    <a href="http://{{ $social->url }}" target="_blank">
+                                    <a href="https://{{ $social->url }}" target="_blank">
                                         <i class="fa fa-snapchat social-icon"></i></a>
                                 @endif
                             @endforeach

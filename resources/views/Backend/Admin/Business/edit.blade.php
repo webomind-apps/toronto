@@ -327,7 +327,7 @@
                                                     @endif
                                                 </div>
                                                 <div class="col-md-5 websiteDiv">
-                                                    <input type="text" class="form-control website" name="social_urls[]"
+                                                    <input type="text" class="form-control" name="social_urls[]"
                                                         placeholder="Enter URL(www.google.com)"
                                                         value="{{ $socialMedia->url }}">
                                                     @if ($errors->has('social_urls'))

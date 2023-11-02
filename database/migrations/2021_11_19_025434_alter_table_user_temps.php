@@ -14,8 +14,8 @@ class AlterTableUserTemps extends Migration
     public function up()
     {
         Schema::table('user_temps', function (Blueprint $table) {
-            $table->dropUnique('user_temps_email_unique');
-            $table->dropUnique('user_temps_phone_unique');
+            // $table->dropUnique('user_temps_email_unique');
+            // $table->dropUnique('user_temps_phone_unique');
         });
     }
 

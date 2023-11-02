@@ -24,7 +24,7 @@ class SubCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required|unique:sub_categories,name,'.(request()->route('subCategory')->id??"").',id|max:128',
+            'name.*'          => 'required|unique:sub_categories,name,'.(request()->route('subCategory')->id??"").',id|max:128',
             'category_id'   => 'required|integer',
         ];
     }

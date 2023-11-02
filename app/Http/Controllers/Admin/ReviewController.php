@@ -87,7 +87,15 @@ class ReviewController extends Controller
 
     public function status_change(Request $request)
     {
-        Review::where("id",$request->id)->update(["status"=>(($request->status == 1)?0:1)]);
+        $review=Review::find($request->id);
+        if($review->status==1){
+            $review->status=0;
+            $review->save();
+        }else{
+            $review->status=1;
+            $review->save();
+        }
+        // Review::where("id",$request->id)->update(["status"=>(($request->status == 1)?0:1)]);
         return redirect(route('admin.review.index'))->with('success', 'Review updated successfully!');
     }
 }

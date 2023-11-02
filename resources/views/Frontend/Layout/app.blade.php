@@ -225,7 +225,7 @@
                         if (response > 0) {
                             vm.val("");
                             vm.parent('div').append(
-                                '<div style="color:red" class="emailErr" >Emial address already exist</div>'
+                                '<div style="color:red" class="emailErr" >Email address already exist</div>'
                             );
                         }
                     },
@@ -257,7 +257,7 @@
                 if (!regex.test(website)) {
                     $(this).val("");
                     $(this).parent('div').append(
-                        '<div style="color:red" class="webErr" >Invalid Webiste format</div>');
+                        '<div style="color:red" class="webErr" >Invalid Website format</div>');
                 }
             })
 

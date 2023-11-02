@@ -17,7 +17,7 @@ class ProvinceController extends Controller
      */
     public function index()
     {
-        $provinces = Province::with("country")->orderBy("id","asc")->get();
+        $provinces = Province::with("country")->orderBy("name","desc")->get();
         return view('Backend.Admin.Province.list', compact('provinces'));
     }
 

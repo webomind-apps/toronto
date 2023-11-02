@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Advertisement;
+use App\Models\Enquiry;
+use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 use App\Models\Business;
 use App\Models\User;
@@ -22,6 +24,8 @@ class DashboardController extends Controller
     public function index()
     {
         $allBusinesses = Business::count();
+        $allInquires = Enquiry::count();
+        $allPaymentMethod = PaymentMethod::count();
 
         $allActiveBusinesses = Business::with("business_upgrade_latest")
         ->whereHas("business_upgrade_latest",function($query){
@@ -36,7 +40,13 @@ class DashboardController extends Controller
 
         $allExpiredBusinesses = Business::with("business_upgrade_latest")
         ->whereHas("business_upgrade_latest",function($query){
-            $query->where("expired_date",">=",date("Y-m-d"));
+            $query->where("expired_date","<=",date("Y-m-d"));
+        })
+        ->where("status",1)
+        ->count();
+        $upcomingRenewalBusinesses = Business::with("business_upgrade_latest")
+        ->whereHas("business_upgrade_latest",function($query){
+            $query->where("expired_date",">",date("Y-m-d"));
         })
         ->where("status",1)
         ->count();
@@ -83,7 +93,9 @@ class DashboardController extends Controller
             'allCounties',
             'allProvinces',
             'allCities',
-
+            'allInquires',
+            'upcomingRenewalBusinesses',
+            'allPaymentMethod'
         ));
     }
 

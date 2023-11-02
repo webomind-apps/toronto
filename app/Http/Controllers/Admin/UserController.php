@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::orderBy("id","asc");
+        $users = User::orderBy("fname","desc");
         if($request->status == "active"){
             $users->where("status",1);
         }elseif($request->status == "inactive"){

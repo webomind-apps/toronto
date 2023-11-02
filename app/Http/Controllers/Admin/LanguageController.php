@@ -16,7 +16,7 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        $languages = Language::orderBy("id","asc")->get();
+        $languages = Language::orderBy("name","desc")->get();
         return view('Backend.Admin.Language.list', compact('languages'));
     }
 
@@ -95,7 +95,15 @@ class LanguageController extends Controller
 
     public function status_change(Request $request)
     {
-        Language::where("id",$request->id)->update(["status"=>(($request->status == 1)?0:1)]);
+        $language=Language::find($request->id);
+        if($language->status==1){
+            $language->status=0;
+            $language->save();
+        }else{
+            $language->status=1;
+            $language->save();
+        }
+        // Language::where("id",$request->id)->update(["status"=>(($request->status == 1)?0:1)]);
         return redirect(route('admin.language.index'))->with('success', 'Language updated successfully!');
     }
 }

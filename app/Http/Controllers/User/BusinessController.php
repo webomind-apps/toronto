@@ -11,7 +11,7 @@ use App\Models\Country;
 use App\Models\Package;
 use App\Models\PaymentMethod;
 use App\Models\DefaultLogo;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 use App\Models\Province;
 use App\Models\City;
 use App\Models\BusinessGallery;
@@ -90,7 +90,7 @@ class BusinessController extends Controller
         $packages = Package::orderBy("name","asc")->where("status",1)->get();
         $paymentMethods = PaymentMethod::orderBy("name","asc")->where("status",1)->get();
 
-        $subCategories = Subcategory::where("category_id",$business->category->category_id)->get();
+        $subCategories = SubCategory::where("category_id",$business->category->category_id)->get();
         $provinces = Province::where("country_id",$business->country_id)->get();
         $cities = City::where("province_id",$business->province_id)->get();
 

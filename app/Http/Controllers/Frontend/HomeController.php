@@ -15,6 +15,7 @@ use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Admin;
 use App\Models\Advertisement;
+use App\Models\Blog;
 use App\Models\Booking;
 use App\Models\Business;
 use App\Models\BusinessCategory;
@@ -77,7 +78,11 @@ class HomeController extends Controller
         $categories = $this->search_categories();
         return view("Frontend.Home.index", compact('default_logo', 'businesses', 'banners', 'categories'));
     }
-
+    public function blogs(){
+        $blogs=Blog::where('status',1)->latest()->get();
+        $categories = $this->search_categories();
+        return view("Frontend.Blog.index",compact('blogs','categories'));
+    }
     public function registration_step1()
     {
         session()->forget('registration_step1');
@@ -141,7 +146,9 @@ class HomeController extends Controller
         session()->put('registration_step2_optional_featured', $request->optional_featured);
         return redirect(route('registration.step3'));
     }
-
+    // public function registration_submit_step3(){
+    //     dd("comming");
+    // }
     public function registration_submit_step3(
         BusinessRequest $request1,
         BusinessCategoryRequest $request2,
@@ -300,36 +307,43 @@ class HomeController extends Controller
 
     public function registration_submit_step4(Request $request)
     {
-        $business = BusinessTemp::where("id", session()->get('business_temp_id'))
-            ->with(
-                "business_category_temps",
-                "business_day_timing_temps",
-                "business_feature_temps",
-                "business_gallery_temps",
-                "business_language_temps",
-                "business_payment_method_temps",
-                "business_social_media_temps",
-                "business_sub_category_temps",
-                "business_upgrade_temps",
-                "user_temps"
-            )
-            ->first();
+        DB::beginTransaction();
+        try {
+            $business = BusinessTemp::where("id", session()->get('business_temp_id'))
+                ->with(
+                    "business_category_temps",
+                    "business_day_timing_temps",
+                    "business_feature_temps",
+                    "business_gallery_temps",
+                    "business_language_temps",
+                    "business_payment_method_temps",
+                    "business_social_media_temps",
+                    "business_sub_category_temps",
+                    "business_upgrade_temps",
+                    "user_temps"
+                )
+                ->first();
 
-        $user_id = $this->user_temps($business->user_temps);
-        $business_id = $this->business_temps($business, $user_id);
+            $user_id = $this->user_temps($business->user_temps);
+            $business_id = $this->business_temps($business, $user_id);
 
-        $result1 = $this->business_category_temps($business->business_category_temps, $business_id);
-        $result2 = $this->business_day_timing_temps($business->business_day_timing_temps, $business_id);
-        $result3 = $this->business_feature_temps($business->business_feature_temps, $business_id);
-        $result4 = $this->business_gallery_temps($business->business_gallery_temps, $business_id);
-        $result5 = $this->business_language_temps($business->business_language_temps, $business_id);
-        $result6 = $this->business_payment_method_temps($business->business_payment_method_temps, $business_id);
-        $result7 = $this->business_social_media_temps($business->business_social_media_temps, $business_id);
-        $result8 = $this->business_sub_category_temps($business->business_sub_category_temps, $business_id);
-        $result9 = $this->business_upgrade_temps($business->business_upgrade_temps, $business_id);
+            $result1 = $this->business_category_temps($business->business_category_temps, $business_id);
+            $result2 = $this->business_day_timing_temps($business->business_day_timing_temps, $business_id);
+            $result3 = $this->business_feature_temps($business->business_feature_temps, $business_id);
+            $result4 = $this->business_gallery_temps($business->business_gallery_temps, $business_id);
+            $result5 = $this->business_language_temps($business->business_language_temps, $business_id);
+            $result6 = $this->business_payment_method_temps($business->business_payment_method_temps, $business_id);
+            $result7 = $this->business_social_media_temps($business->business_social_media_temps, $business_id);
+            $result8 = $this->business_sub_category_temps($business->business_sub_category_temps, $business_id);
+            $result9 = $this->business_upgrade_temps($business->business_upgrade_temps, $business_id);
 
-        $this->business_admin_email_confirmation($business);
-        $this->business_user_email_confirmation($business);
+            // $this->business_admin_email_confirmation($business);
+            // $this->business_user_email_confirmation($business);
+            DB::commit();
+        } catch (\Exception $e) {
+            dd($e);
+            DB::rollback();
+        }
 
         session()->flash('pop-up-success', 'Your business has been registered successfully!');
         session()->flash('pop-up-success-title', 'Registration-Toronto Connections');
@@ -546,19 +560,19 @@ class HomeController extends Controller
         if (!empty($business_upgrade_temps)) {
             // $error = 0;
             // foreach($business_upgrade_temps as $business_upgrade_temp){
-            $business_upgrade = new BusinessUpgrade();
-            $business_upgrade->business_id = $business_id;
-            $business_upgrade->package_id = $business_upgrade_temps->package_id;
-            $business_upgrade->gst_percentage = $business_upgrade_temps->gst_percentage;
-            $business_upgrade->gst_amount = $business_upgrade_temps->gst_amount;
-            $business_upgrade->total_amount = $business_upgrade_temps->total_amount;
-            $business_upgrade->package_price = $business_upgrade_temps->package_price;
-            $business_upgrade->upgraded_date = $this->db_date_format($business_upgrade_temps->upgraded_date);
-            $business_upgrade->expired_date = $this->c($business_upgrade_temps->expired_date);
-            $business_upgrade->status = $business_upgrade_temps->status;
-            $business_upgrade->created_by = $business_upgrade_temps->updated_by;
-            // $error += ($business_upgrade->save())?0:1;
-            // }
+                $business_upgrade = new BusinessUpgrade();
+                $business_upgrade->business_id = $business_id;
+                $business_upgrade->package_id = $business_upgrade_temps->package_id;
+                $business_upgrade->gst_percentage = $business_upgrade_temps->gst_percentage;
+                $business_upgrade->gst_amount = $business_upgrade_temps->gst_amount;
+                $business_upgrade->total_amount = $business_upgrade_temps->total_amount;
+                $business_upgrade->package_price = $business_upgrade_temps->package_price;
+                $business_upgrade->upgraded_date = $this->db_date_format($business_upgrade_temps->upgraded_date);
+                $business_upgrade->expired_date = $this->db_date_format($business_upgrade_temps->expired_date);
+                $business_upgrade->status = $business_upgrade_temps->status;
+                $business_upgrade->created_by = $business_upgrade_temps->updated_by;
+                // $error += ($business_upgrade->save())?0:1;
+                // }
             return ($business_upgrade->save()) ? true : false;
         }
     }
@@ -588,7 +602,7 @@ class HomeController extends Controller
                 $optional_content .= ($key + 1) . "Feature Listing<br/>";
             }
         }
-        
+
         $content = [
             "subject" => "Toronto Connection | Business Registration",
             "content" => "There is a new Business Registration for Toronto Connection. New Business name is

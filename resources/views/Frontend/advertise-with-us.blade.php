@@ -9,7 +9,6 @@
         .container {
             max-width: 1250px;
         }
-
     </style>
 @endpush
 
@@ -21,7 +20,6 @@
         <div class="tab-pane" id="step2">
             <h2 class="text-center">Packages details</h2>
             <div class="row">
-
                 <div class="col-md-3 p-2">
                     <div class="pack-box">
                         <div class="pack-title blue-1 text-center">
@@ -34,17 +32,20 @@
                             <li>Telephone</li>
                             <li>Fax</li>
                             <li>Email</li>
-                            <li>Province</li>
-                            <li>City</li>
-                            <li>Category</li>
-                            <li>Sub Category</li>
                             <li>Business Address </li>
                             <li>Business Description</li>
+                            <li>Category</li>
+                            <li>Sub Category</li>
                             <li>Business Hours</li>
                             <li>Map Location</li>
                             <li>Add Reviews</li>
+                            <li>Province</li>
+                            <li>City</li>
                         </ul>
 
+                    </div>
+                    <div class="register" style="text-align: center;">
+                        <a href="{{ route('registration.step1') }}" class="btn btn-success">Sign Up</a>
                     </div>
                 </div>
 
@@ -56,7 +57,6 @@
                         </div>
                         <ul class="pack-options">
                             <li>Business Name</li>
-                            <li>Business Logo</li>
                             <li>Website URL</li>
                             <li>Telephone</li>
                             <li>Fax</li>
@@ -65,18 +65,21 @@
                             <li>Business Description</li>
                             <li>Category</li>
                             <li>Sub Category</li>
+                            <li>Business Hours</li>
+                            <li>Map Location</li>
+                            <li>Add Reviews</li>
                             <li>Areas of Practice</li>
                             <li>Products and Services</li>
                             <li>Languages</li>
-                            <li>Business Hours</li>
                             <li>Social Media Links</li>
                             <li>Gallery</li>
                             <li>Payment Methods</li>
                             <li>Video Link</li>
-                            <li>Map Location</li>
-                            <li>Add Reviews</li>
+                            <li>Business Logo</li>
                         </ul>
-
+                    </div>
+                    <div class="register" style="text-align: center;">
+                        <a href="{{ route('registration.step1') }}" class="btn btn-success">Sign Up</a>
                     </div>
                 </div>
 
@@ -89,14 +92,25 @@
                             <h4>Advertising</h4>
                             <span class="price"></span>
                         </div>
+                        <img src="{{ asset('webo/images/300/300x300_5.jpg') }}" class="register-banner-img" />
 
-                        <img src="{{ asset('webo/images/300/300x300_5.jpg') }}" class="register-banner-img"
-                            style="margin-bottom: 15px;" />
+                    </div>
+                    <div class="register" style="text-align: center;">
+                        <a href="{{ route('registration.step1') }}" class="btn btn-success">Sign Up</a>
+                    </div>
+                    <div class="pack-box">
 
+                        <div class="pack-title text-center">
+                            <h4>Banner</h4>
+                            <h4>Advertising</h4>
+                            <span class="price"></span>
+                        </div>
                         <img src="{{ asset('webo/images/300/300x600_5.jpg') }}" class="register-banner-img" />
 
                     </div>
-
+                    <div class="register" style="text-align: center;">
+                        <a href="{{ route('registration.step1') }}" class="btn btn-success">Sign Up</a>
+                    </div>
                 </div>
 
                 <div class="col-md-3 p-2">
@@ -112,15 +126,12 @@
                         <img src="{{ asset('webo/images/300/featured_banner.png') }}" class="" />
 
                     </div>
-
+                    <div class="register" style="text-align: center;">
+                        <a href="{{ route('registration.step1') }}" class="btn btn-success">Sign Up</a>
+                    </div>
                 </div>
 
             </div>
-
-            <div class="register" style="text-align: center;">
-                <a href="{{ route('registration.step1') }}" class="btn btn-success">Register Now</a>
-            </div>
         </div>
     </div>
-
 @endsection

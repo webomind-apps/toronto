@@ -17,17 +17,22 @@
         .badge.bg-orange {
             padding: 7%;
         }
-
     </style>
 @endpush
 @section('main')
-
     <div class="page-title">
         <div class="title_left">
         </div>
         <div class="title_right">
-            <div class="pull-right">
-
+            <div class="">
+                <form action="{{route('admin.business.export')}}" method="post">
+                    @csrf
+                    <input type="hidden" value="{{request('category_id')}}" name="category_id">
+                    <input type="hidden" value="{{request('province_id')}}" name="province_id">
+                    <input type="hidden" value="{{request('package_id')}}" name="package_id">
+                    <input type="hidden" value="{{request('status')}}" name="status">
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </form>
             </div>
         </div>
     </div>
@@ -37,6 +42,41 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel" style="width:auto;">
                 <div class="x_content">
+                    <form action="" method="get">
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <select name="province_id" id="province_id" class="form-control">
+                                    <option value="">Select province</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <select name="category_id" id="category_id" class="form-control">
+                                    <option value="">Select Category</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select name="package_id" id="package_id" class="form-control">
+                                    <option value="">Select Package</option>
+                                    @foreach ($packages as $package)
+                                        <option value="{{ $package->id }}">{{ $package->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select name="sts" id="status" class="form-control">
+                                    <option value="1">Active</option>
+                                    <option value="0">Not Active</option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-success" type="submit">Search</button>
+                                <a href="{{route('admin.business.index')}}" class="btn btn-danger">Clear</a>
+                            </div>
+                        </div>
+                    </form>
                     <table class="table table-striped table-bordered golo-datatable">
                         <thead>
                             <tr>
@@ -65,8 +105,7 @@
                                         @if (!empty($business->image) && file_exists(public_path('storage/' . $business->image)))
                                             <img src="{{ asset('storage/' . $business->image) }}" class="place_list_thumb"
                                                 alt="{{ $business->name }}">
-                                        @elseif(!empty($default_logo->image) &&
-                                            file_exists(public_path('storage/'.$default_logo->image)))
+                                        @elseif(!empty($default_logo->image) && file_exists(public_path('storage/' . $default_logo->image)))
                                             <img src="{{ asset('storage/' . $default_logo->image) }}"
                                                 class="place_list_thumb">
                                         @else
@@ -105,7 +144,7 @@
                                     </td>
 
                                     <td>
-                                        ${{ ($business->business_upgrade_latest->package_price + $business->business_upgrade_latest->gst_amount) }}
+                                        ${{ $business->business_upgrade_latest->package_price + $business->business_upgrade_latest->gst_amount }}
                                     </td>
 
                                     <td>
@@ -118,7 +157,7 @@
 
                                         <form action={{ route('admin.business.isFeature') }} method="post">
                                             @csrf
-                                            @method("put")
+                                            @method('put')
                                             <input type="checkbox" class="js-switch" name="status"
                                                 data-id="{{ $business->id }}"
                                                 {{ $business->is_feature == 1 ? 'checked' : '' }}
@@ -133,7 +172,7 @@
 
                                         <form action={{ route('admin.business.status') }} method="post">
                                             @csrf
-                                            @method("put")
+                                            @method('put')
                                             <input type="checkbox" class="js-switch" name="status"
                                                 data-id="{{ $business->id }}"
                                                 {{ $business->status == 1 ? 'checked' : '' }}
@@ -144,10 +183,12 @@
 
                                     </td>
                                     <td class="golo-flex">
-                                        <a href="{{ route('admin.business.edit', $business) }}"><button type="button" class="btn btn-warning btn-xs">Edit
-                                        </button></a>
-                                        <a href="{{ route('admin.business.show', $business) }}"><button type="button" class="btn btn-warning btn-xs">view
-                                        </button></a>
+                                        <a href="{{ route('admin.business.edit', $business) }}"><button type="button"
+                                                class="btn btn-warning btn-xs">Edit
+                                            </button></a>
+                                        <a href="{{ route('admin.business.show', $business) }}"><button type="button"
+                                                class="btn btn-warning btn-xs">view
+                                            </button></a>
                                         {{-- <div class="list-icons">
                                             <div class="dropdown">
                                                 <a href="#" class="list-icons-item" data-toggle="dropdown">
@@ -169,15 +210,36 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('scripts')
     <script>
         $(document).ready(function() {
+            // provience_id=$('#provience_id').val();
+            // package_id=$('#package_id').val();
+            // status=$('#status').val();
+            // $('#provience_id_export').val(provience_id),
+            // $('#package_id_export').val(package_id),
+            // $('#status_export').val(status),
+            $.ajax({
+                type: "get",
+                url: "{{ route('admin.common.province.collection') }}",
+                data: {
+                    "country_id": 1,
+                },
+                dataType: "JSON",
+                success: function(response) {
+                    content = '<option value="">Select Province</option>';
+                    for (i = 0; response.length > i; i++) {
+                        content += '<option value="' + response[i].id + '">' + response[i].name +
+                            '</option>';
+                    }
+                    $("#province_id").html(content);
+                }
+            });
             $(".module-title").text("Business");
             $(".top-add-button").html(
-                '<a href="{{ route('admin.business.create') }}"><button class="btn btn-primary" type="button">+ Add New</button></a>'
+                '<a href="{{ route('admin.business.create') }}" class="btn btn-primary">+ Add New</a>'
             );
         });
     </script>

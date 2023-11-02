@@ -10,12 +10,17 @@
                     aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
                 <div class="collapse navbar-collapse" id="h5-info">
                     <ul class="navbar-nav">
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('home.index') }}"> Home
-                            </a>
-                        <li class="nav-item"> <a class="nav-link"
-                                href="{{ route('advertise.with.us') }}">Advertise with Us</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('contact.us') }}">Contact
-                                Us </a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home.index') }}"> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home.blogs') }}"> Blogs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('advertise.with.us') }}">Advertise with Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('contact.us') }}">Contact Us </a>
                         </li>
                     </ul>
                     <div class="header_r d-flex @guest nopadding @endguest">
@@ -40,60 +45,55 @@
                                     </span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="
-                                          @if (Auth::guard('business_user')->check())
-                                        {{ route('business.user.profile') }}
+                                    <a class="dropdown-item"
+                                        href="
+                                          @if (Auth::guard('business_user')->check()) {{ route('business.user.profile') }}
                                     @elseif(Auth::guard('user')->check())
-                                        {{ route('user.dashboard') }}
-                        @endif
+                                        {{ route('user.dashboard') }} @endif
 
                         ">{{ __('Profile') }}
-                        </a>
-                        <a class="dropdown-item" href="javascript:void(0)"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                        <form class="d-none" id="logout-form" action="
-                             @if (Auth::guard('business_user')->check())
-                            {{ route('business.user.logout') }}
+                                    </a>
+                                    <a class="dropdown-item" href="javascript:void(0)"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                    <form class="d-none" id="logout-form"
+                                        action="
+                             @if (Auth::guard('business_user')->check()) {{ route('business.user.logout') }}
                         @elseif(Auth::guard('user')->check())
-                            {{ route('user.logout') }}
-                            @endif
+                            {{ route('user.logout') }} @endif
                             "
-                            method="POST">
-                            @csrf
-                        </form>
+                                        method="POST">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
+                        @else
+                            <div class="post_ad dropdown" style="padding: 5px;">
+                                <a class="nav-link dropdown-toggle" id="sdfdsf" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" href="#">Registration</a>
+                                <div class="dropdown-menu" aria-labelledby="sdfdsf">
+                                    <a class="dropdown-item"
+                                        href="{{ route('registration.step1') }}">{{ __('Business Registration') }}</a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal"
+                                        data-target="#business-user-register">{{ __('User Registration') }}</a>
+                                </div>
+                            </div>
+
+                            <div class="post_ad dropdown" style="padding: 5px;">
+                                <a class="nav-link dropdown-toggle" id="sdfsadfdsf" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" href="#">Login</a>
+                                <div class="dropdown-menu" aria-labelledby="sdfsadfdsf">
+                                    <a class="dropdown-item loginClick businessLoginClick" data-toggle="modal"
+                                        data-target="#user-login">{{ __('Business Login') }}</a>
+                                    <a class="dropdown-item loginClick userLoginClick" data-toggle="modal"
+                                        data-target="#business-user-login">{{ __('User Login') }}</a>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
-
-            @else
-
-                <div class="post_ad dropdown" style="padding: 5px;">
-                    <a class="nav-link dropdown-toggle" id="sdfdsf" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" href="#">Registration</a>
-                    <div class="dropdown-menu" aria-labelledby="sdfdsf">
-                        <a class="dropdown-item"
-                            href="{{ route('registration.step1') }}">{{ __('Business Registration') }}</a>
-                        <a class="dropdown-item" href="#" data-toggle="modal"
-                            data-target="#business-user-register">{{ __('User Registration') }}</a>
-                    </div>
-                </div>
-
-                <div class="post_ad dropdown" style="padding: 5px;">
-                    <a class="nav-link dropdown-toggle" id="sdfsadfdsf" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" href="#">Login</a>
-                    <div class="dropdown-menu" aria-labelledby="sdfsadfdsf">
-                        <a class="dropdown-item loginClick businessLoginClick" data-toggle="modal"
-                            data-target="#user-login">{{ __('Business Login') }}</a>
-                        <a class="dropdown-item loginClick userLoginClick" data-toggle="modal"
-                            data-target="#business-user-login">{{ __('User Login') }}</a>
-                    </div>
-                </div>
-
-                @endif
+            </nav>
         </div>
     </div>
-    </nav>
-</div>
-</div>
 </div>
 
 <!-- Modal -->
@@ -103,8 +103,8 @@
             <div class="modal-header">
                 <h5 class="modal-title">Login to Toronto</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span
-                        aria-hidden="true"><img src="{{ asset('webo/images/close.png') }}"
-                            alt="desi-con Plus"></span> </button>
+                        aria-hidden="true"><img src="{{ asset('webo/images/close.png') }}" alt="desi-con Plus"></span>
+                </button>
             </div>
             <div class="modal-body">
                 @if (session('business-user-error'))
@@ -118,8 +118,8 @@
                         <div class="col-sm-12">
                             <small class="form-text text-danger d-none" id="login_otp_error">error!</small>
                             <div class="form-group has-feedback">
-                                <input type="text" id="email" name="email" class="form-control" name="email"
-                                    placeholder="Email Address" required>
+                                <input type="text" id="email" name="email" class="form-control"
+                                    name="email" placeholder="Email Address" required>
                                 @error('email')
                                     <span class="text-danger" role="alert">
                                         <small>{{ $message }}</small>
@@ -130,8 +130,8 @@
                         <div class="col-sm-12">
                             <div class="form-group has-feedback">
                                 <i class="fa fa-eye password-eye"></i>
-                                <input type="password" class="form-control password mt-10" id="password" name="password"
-                                    placeholder="Password" required>
+                                <input type="password" class="form-control password mt-10" id="password"
+                                    name="password" placeholder="Password" required>
                                 @error('password')
                                     <span class="text-danger" role="alert">
                                         <small>{{ $message }}</small>
@@ -186,8 +186,8 @@
                         <div class="col-sm-12">
                             <small class="form-text text-danger d-none" id="login_otp_error">error!</small>
                             <div class="form-group has-feedback">
-                                <input type="text" id="email" name="email" class="form-control" name="email"
-                                    placeholder="Email Address" required>
+                                <input type="text" id="email" name="email" class="form-control"
+                                    name="email" placeholder="Email Address" required>
                                 @error('email')
                                     <span class="text-danger" role="alert">
                                         <small>{{ $message }}</small>
@@ -198,8 +198,8 @@
                         <div class="col-sm-12">
                             <div class="form-group has-feedback">
                                 <i class="fa fa-eye password-eye"></i>
-                                <input type="password" class="form-control password mt-10" id="password" name="password"
-                                    placeholder="Password" required>
+                                <input type="password" class="form-control password mt-10" id="password"
+                                    name="password" placeholder="Password" required>
                                 @error('password')
                                     <span class="text-danger" role="alert">
                                         <small>{{ $message }}</small>
@@ -236,16 +236,16 @@
                             alt="desi-con Plus"></span> </button>
             </div>
             <div class="modal-body">
-                <form class="form-sign form-content" id="register" action="{{ route('business.user.registration') }}"
-                    method="post">
+                <form class="form-sign form-content" id="register"
+                    action="{{ route('business.user.registration') }}" method="post">
                     <div class="row">
                         <div class="col-sm-12">
                             @csrf
                             <small class="form-text text-danger d-none" id="register_error">error!</small>
 
                             <div class="form-group has-feedback">
-                                <input type="text" class="form-control name" name="fname" placeholder="First Name"
-                                    value="{{ old('fname') }}" required>
+                                <input type="text" class="form-control name" name="fname"
+                                    placeholder="First Name" value="{{ old('fname') }}" required>
                                 @if ($errors->has('fname'))
                                     <p style="color:red;">
                                         {{ $errors->first('fname') }}</p>
@@ -255,8 +255,8 @@
 
                         <div class="col-sm-12">
                             <div class="form-group has-feedback">
-                                <input type="text" class="form-control name" name="lname" placeholder="Last Name"
-                                    value="{{ old('lname') }}" required>
+                                <input type="text" class="form-control name" name="lname"
+                                    placeholder="Last Name" value="{{ old('lname') }}" required>
                                 @if ($errors->has('lname'))
                                     <p style="color:red;">
                                         {{ $errors->first('lname') }}</p>
@@ -267,9 +267,9 @@
                         <div class="col-sm-12">
                             <div class="form-group has-feedback">
 
-                                <input type="email" class="form-control email-unique" name="email" placeholder="Email"
-                                    value="{{ old('email') }}" data-field="email" data-table="business_users"
-                                    required>
+                                <input type="email" class="form-control email-unique" name="email"
+                                    placeholder="Email" value="{{ old('email') }}" data-field="email"
+                                    data-table="business_users" required>
                                 @if ($errors->has('email'))
                                     <p style="color:red;">
                                         {{ $errors->first('email') }}</p>

@@ -38,7 +38,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p class="mt-3 mb-3 copyright">&copy; Copyright 2021 Toronto Connection. All rights reserved </p>
+                    <p class="mt-3 mb-3 copyright">&copy; Copyright {{date('Y')}} Toronto Connection. All rights reserved </p>
                 </div>
             </div>
         </div>

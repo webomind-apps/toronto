@@ -86,12 +86,12 @@
 
                                 <div class="field-input">
 
-                                    <input type="tel" class="phone" name="phone" placeholder="{{__('Phone number (444-444-4444)')}}" required>
+                                    <input type="tel" class="phone" name="phone" placeholder="{{__('Phone number (444-444-4444)')}} *" required>
                                 </div>
 
                                 <div class="field-textarea">
 
-                                    <textarea name="message" placeholder="{{__('Message')}}" required></textarea>
+                                    <textarea name="message" placeholder="{{__('Message')}} *" required></textarea>
 
                                 </div>
 

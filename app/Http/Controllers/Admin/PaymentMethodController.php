@@ -18,7 +18,7 @@ class PaymentMethodController extends Controller
      */
     public function index()
     {
-        $paymentMethods = PaymentMethod::orderBy("id", "asc")->get();
+        $paymentMethods = PaymentMethod::orderBy("name", "desc")->get();
         return view('Backend.Admin.PaymentMethod.list', compact('paymentMethods'));
     }
 

@@ -14,9 +14,15 @@ class SubCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sub_categories = SubCategory::with("category")->orderBy("id","asc")->get();
+        $sub_categories=SubCategory::orderBy('name','asc');
+        if($request->search!=''){
+            $sub_categories->whereHas('category', function ($q) use($request) {
+                $q->where("name",'like','%'.$request->search.'%');
+            })->orWhere("name",'like','%'.$request->search.'%');
+        }
+        $sub_categories = $sub_categories->with("category")->paginate(10);
         return view('Backend.Admin.SubCategory.list', compact('sub_categories'));
     }
 
@@ -37,12 +43,23 @@ class SubCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SubCategoryRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-        $data["created_by"] = auth()->user()->id;
-        $data["updated_by"] = auth()->user()->id;
-        SubCategory::create($data);
+        // $data = $request->validated();
+        // $data["created_by"] = auth()->user()->id;
+        // $data["updated_by"] = auth()->user()->id;
+
+        foreach($request->name as $name){
+            $data = [
+                'name' => $name,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+                'category_id' => $request->category_id
+            ];
+            SubCategory::create($data);
+        }
+        // dd($request->validated());
+        // SubCategory::create($data);
         return redirect(route('admin.subCategory.index'))->with('success', 'Sub Category added successfully!');
     }
 

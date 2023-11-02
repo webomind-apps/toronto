@@ -1,7 +1,7 @@
 @push('style')
     <style>
         .paymentTable {
-            width: 50%;
+            width: 60%;
             margin-right: auto;
             margin-left: auto;
             margin-bottom: 20px;
@@ -25,7 +25,7 @@
         }
 
         .paymentTable tr td:nth-child(3) {
-            width: 200px;
+            width: 250px;
         }
 
         .paymentTable tr td:nth-child(2) {
@@ -40,7 +40,6 @@
         .paymentTable tr:nth-child(4) {
             border-top: 1px solid black;
         }
-
     </style>
 @endpush
 <h3>Payment Details</h3>
@@ -54,39 +53,39 @@
                     <tr>
                         <td class="text-right">Registration Date</td>
                         <td>:</td>
-                        <td>{{ $detail->business_upgrade_temps->upgraded_date??"" }}</td>
+                        <td>{{ $detail->business_upgrade_temps->upgraded_date ?? '' }}</td>
                     </tr>
                     <tr>
                         <td class="text-right">Package Expiry Date</td>
                         <td>:</td>
-                        <td>{{ $detail->business_upgrade_temps->expired_date??"" }}</td>
+                        <td>{{ $detail->business_upgrade_temps->expired_date ?? '' }}</td>
                     </tr>
                 </table>
             </div>
             <hr />
             @php
-                $pack_price = $detail->business_upgrade_temps->package_price??99;
+                $pack_price = $detail->business_upgrade_temps->package_price ?? 99;
                 $gst_per = session()->get('registration_step1_gst_per') ?? 0;
-                $pack_gst_amount = ($gst_per*$pack_price)/100;
+                $pack_gst_amount = ($gst_per * $pack_price) / 100;
             @endphp
             <div class="col-md-12">
                 <table class="paymentTable">
                     <tr>
                         <td class="text-right">Premimum Package Price</td>
                         <td>:</td>
-                        <td class="">${{$pack_price}}</td>
+                        <td class="">${{ $pack_price }}</td>
                     </tr>
 
                     <tr>
-                        <td class="text-right">Hst({{$gst_per}}%)</td>
+                        <td class="text-right">Hst({{ $gst_per }}%)</td>
                         <td>:</td>
-                        <td>${{$pack_gst_amount}}</td>
+                        <td>${{ $pack_gst_amount }}</td>
                     </tr>
 
                     <tr>
                         <td class="text-right">Total</td>
                         <td>:</td>
-                        <td>${{$pack_price+$pack_gst_amount}}</td>
+                        <td>${{ $pack_price + $pack_gst_amount }}</td>
                     </tr>
                 </table>
             </div>
@@ -96,10 +95,11 @@
                     <tr>
                         <td class="text-right">Payment Mode</td>
                         <td>:</td>
-                        <td class=""><input type="radio" name="paymentType" class="payment-radio" />Credit Card 
-                                     <input type="radio" name="paymentType" class="payment-radio" />Paypal 
-                                     <input type="radio" name="paymentType" class="payment-radio" />E-transfer
-                                     <input type="radio" name="paymentType" class="payment-radio" />Cheque       
+                        <td class="">
+                            <input type="radio" name="paymentType" class="payment-radio" />Credit Card
+                            {{-- <input type="radio" name="paymentType" class="payment-radio" />Paypal --}}
+                            <input type="radio" name="paymentType" class="payment-radio" />E-transfer
+                            {{-- <input type="radio" name="paymentType" class="payment-radio" />Cheque --}}
                         </td>
                     </tr>
                 </table>
